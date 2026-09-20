@@ -1,0 +1,6 @@
+{
+  "name": "ActionOS",
+  "description": "Universal Productivity Platform & AI Operating System for Personal, Work, Student, and Developer Workspaces with Smart Tasks, Calendar, Goals, Notes, Focus Mode, and Cross-Workspace Intelligence.",
+  "requestFramePermissions": ["notifications"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

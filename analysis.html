@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ActionOS — AI Analysis &amp; Time Scheduling</title>
+<meta name="description" content="Extracted directly from what you pasted — inspect tasks, deadlines, time schedules, and priority signals before generating the action plan." />
+<meta property="og:title" content="ActionOS — AI Analysis" />
+<meta property="og:description" content="Extracted directly from what you pasted — inspect tasks, deadlines, time schedules, and priority signals before generating the action plan." />
+<link rel="stylesheet" href="style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail">
+      <a href="index.html" class="rail-brand">
+        ActionOS
+        <span class="rail-brand-tag">v2.5</span>
+      </a>
+
+      <ol class="rail-steps">
+        <li class="done" id="step-nav-1"><a href="index.html#workspace">1 · Ingest &amp; Input</a></li>
+        <li class="active" id="step-nav-2"><a href="analysis.html">2 · Task Analysis</a></li>
+        <li id="step-nav-3"><a href="action.html">3 · Action &amp; Verify</a></li>
+      </ol>
+
+      <div class="rail-tools">
+        <span class="rail-tools-title">Productivity Suite</span>
+        <button type="button" class="rail-tool-btn" id="open-studio-btn">
+          ⚡ Timetable &amp; Schedule Studio
+        </button>
+        <button type="button" class="rail-tool-btn" id="open-pomodoro-btn">
+          ⏱ Focus Sprint Timer
+        </button>
+        <button type="button" class="rail-tool-btn" id="open-chat-rail-btn">
+          💬 ActionBot Copilot
+        </button>
+        <button type="button" class="rail-tool-btn" id="open-cmd-btn">
+          ⌨️ Command Menu <span style="font-size: 0.7rem; color: var(--text-dim); margin-left: auto;">⌘K</span>
+        </button>
+      </div>
+
+      <div class="rail-footer">
+        <div class="rail-pill">Explainable Signals</div>
+        <span>Every classification is traceable to words in your source text.</span>
+      </div>
+    </aside>
+
+    <main class="stage">
+      <section class="reveal in-view">
+        <header class="stage-head">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <h1 style="margin: 0;">AI Analysis ✓</h1>
+            <span id="analysis-engine-badge" class="stat-chip" style="font-size: 0.76rem; background: var(--accent-glow); color: var(--accent-light); border-color: rgba(99, 102, 241, 0.3);">
+              ⚡ Offline Heuristic Fallback
+            </span>
+          </div>
+          <p class="stage-sub" style="margin-top: 8px;">Extracted directly from what you pasted — nothing here was invented or hallucinated.</p>
+        </header>
+
+        <!-- Stats Chips (Preserved IDs) -->
+        <div class="stats">
+          <span id="stat-tasks" class="stat-chip">0 Tasks Found</span>
+          <span id="stat-deadlines" class="stat-chip">0 Deadlines</span>
+          <span id="stat-priorities" class="stat-chip">0 Priority Levels</span>
+        </div>
+
+        <!-- Priority filter chips and Add item button -->
+        <div class="filter-bar">
+          <div class="filter-chips" id="priority-filters">
+            <button type="button" class="filter-chip active" data-filter="ALL">All Tasks</button>
+            <button type="button" class="filter-chip" data-filter="URGENT">Urgent</button>
+            <button type="button" class="filter-chip" data-filter="HIGH">High</button>
+            <button type="button" class="filter-chip" data-filter="MEDIUM">Medium</button>
+            <button type="button" class="filter-chip" data-filter="LOW">Low</button>
+          </div>
+          <button type="button" class="btn-secondary" id="toggle-add-task-btn" style="padding: 5px 12px; font-size: 0.8rem;">
+            + Add Task Item
+          </button>
+        </div>
+
+        <!-- Add Task Input Box -->
+        <div class="card" id="add-task-box" style="display: none; margin-bottom: 16px; padding: 16px;">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <input type="text" id="new-task-title" class="chat-input" style="flex: 2; min-width: 220px;" placeholder="Task description (e.g. Conduct security vulnerability scan)" />
+            <input type="text" id="new-task-deadline" class="chat-input" style="flex: 1; min-width: 140px;" placeholder="Deadline (e.g. 5:00 PM today)" />
+            <select id="new-task-priority" class="chat-input" style="width: auto;">
+              <option value="URGENT">URGENT</option>
+              <option value="HIGH">HIGH</option>
+              <option value="MEDIUM" selected>MEDIUM</option>
+              <option value="LOW">LOW</option>
+            </select>
+            <button type="button" id="confirm-add-task-btn" class="btn-primary" style="padding: 8px 16px;">Add Item</button>
+          </div>
+        </div>
+
+        <!-- Task List Card (Preserved ID: task-list) -->
+        <section class="card">
+          <div id="task-list"></div>
+        </section>
+
+        <!-- Continue Button (Preserved ID: continue-btn) -->
+        <div class="btn-row" style="margin-top: 24px;">
+          <button id="continue-btn" class="btn-primary">
+            <span>Continue to Action Plan →</span>
+          </button>
+          <a href="index.html" class="btn-secondary">← Modify Input Text</a>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           TIME MANAGEMENT & SCHEDULE ALLOCATOR (Feature 3)
+           ==================================================================== -->
+      <section class="time-suite-card reveal reveal-delay-1" style="margin-top: 36px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <h3 style="font-size: 1.05rem;">⏱ Auto-Allocated Execution Schedule</h3>
+            <p style="font-size: 0.82rem; color: var(--text-secondary);">Calculated hour-by-hour time slots optimized by urgency and deadline.</p>
+          </div>
+          <button type="button" class="btn-secondary" id="recalc-schedule-btn" style="padding: 5px 12px; font-size: 0.78rem;">
+            ↻ Refresh Slots
+          </button>
+        </div>
+
+        <div class="schedule-timeline" id="schedule-timeline">
+          <!-- Dynamically populated timeline slots -->
+        </div>
+
+        <!-- Executive Plan Health & Risk Auditor -->
+        <div id="plan-risk-card" style="margin-top: 20px; padding: 16px; background: var(--bg-deep); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-main);">🛡️ Plan Health &amp; Concurrency Auditor</span>
+              <span id="plan-health-score" class="badge badge-medium" style="font-size: 0.72rem;">Score: 85/100</span>
+            </div>
+            <button type="button" class="btn-secondary" id="audit-plan-btn" style="padding: 4px 10px; font-size: 0.72rem;">
+              ⚡ Re-audit Risks
+            </button>
+          </div>
+          <div id="plan-risk-list" style="font-size: 0.82rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 6px;">
+            <!-- Dynamically populated risk warnings or green clearance -->
+          </div>
+        </div>
+
+        <!-- Eisenhower 2x2 Priority Matrix -->
+        <div class="eisenhower-container" style="margin-top: 24px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <h3 style="font-size: 1.05rem;">🧭 Eisenhower 2x2 Decision Matrix</h3>
+            <span style="font-size: 0.76rem; color: var(--text-dim);">Live priority quadrant distribution</span>
+          </div>
+          <div class="eisenhower-grid">
+            <div class="quadrant-box q1" id="analysis-quadrant-q1">
+              <div class="quadrant-header">
+                <div>
+                  <div class="quadrant-title" style="color: var(--urgent);">Q1: Do First</div>
+                  <div class="quadrant-subtitle">Urgent &amp; High Impact</div>
+                </div>
+                <span class="quadrant-count" id="analysis-count-q1">0</span>
+              </div>
+              <div class="quadrant-tasks" id="analysis-tasks-q1"></div>
+            </div>
+
+            <div class="quadrant-box q2" id="analysis-quadrant-q2">
+              <div class="quadrant-header">
+                <div>
+                  <div class="quadrant-title" style="color: var(--accent-light);">Q2: Schedule &amp; Protect</div>
+                  <div class="quadrant-subtitle">Important, Not Urgent</div>
+                </div>
+                <span class="quadrant-count" id="analysis-count-q2">0</span>
+              </div>
+              <div class="quadrant-tasks" id="analysis-tasks-q2"></div>
+            </div>
+
+            <div class="quadrant-box q3" id="analysis-quadrant-q3">
+              <div class="quadrant-header">
+                <div>
+                  <div class="quadrant-title" style="color: var(--medium);">Q3: Delegate / Automate</div>
+                  <div class="quadrant-subtitle">Urgent, Secondary Value</div>
+                </div>
+                <span class="quadrant-count" id="analysis-count-q3">0</span>
+              </div>
+              <div class="quadrant-tasks" id="analysis-tasks-q3"></div>
+            </div>
+
+            <div class="quadrant-box q4" id="analysis-quadrant-q4">
+              <div class="quadrant-header">
+                <div>
+                  <div class="quadrant-title" style="color: var(--low);">Q4: Defer / Eliminate</div>
+                  <div class="quadrant-subtitle">Low Impact, Low Urgency</div>
+                </div>
+                <span class="quadrant-count" id="analysis-count-q4">0</span>
+              </div>
+              <div class="quadrant-tasks" id="analysis-tasks-q4"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Architecture & Explanatory section on scroll -->
+      <section class="project-info-section reveal">
+        <h2 style="font-size: 1.4rem;">How Analysis Works</h2>
+        <p class="stage-sub" style="margin-top: 8px;">
+          ActionOS applies syntactic action-verb mapping (such as <em>submit, review, record, deploy</em>) paired with temporal distance parsing. Because every classification is stored in your active session, nothing is lost between step navigations.
+        </p>
+
+        <div class="project-info-grid" style="margin-top: 20px;">
+          <div class="info-card">
+            <div class="info-title">Heuristic Transparency</div>
+            <div class="info-desc">
+              When working in offline fallback mode, the rule-based scanner evaluates every sentence independently, preventing cross-sentence inference errors common in LLMs.
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-title">Human Triage</div>
+            <div class="info-desc">
+              You maintain full authority to remove false positives, edit priority tiers, or insert supplemental action items before generating the final execution manifest.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Floating ActionBot Chatbot Trigger & Drawer -->
+  <button type="button" class="chatbot-trigger" id="chatbot-toggle-btn" title="Open ActionOS Copilot">
+    <span class="status-dot"></span>
+    <span>ActionBot Copilot</span>
+  </button>
+
+  <div class="chat-modal" id="chat-modal" hidden>
+    <div class="chat-header">
+      <div class="chat-title-box">
+        <span class="status-dot"></span>
+        <div>
+          <strong style="font-size: 0.95rem; color: var(--text-main);">ActionBot Copilot</strong>
+          <div style="font-size: 0.72rem; color: var(--text-dim);">Context-aware planning intelligence</div>
+        </div>
+      </div>
+      <button type="button" class="chat-close-btn" id="chat-close-btn">✕</button>
+    </div>
+
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-bubble model">
+        I can help you review these extracted tasks, adjust priorities, or decompose large deliverables into sub-steps. How would you like to refine your plan?
+      </div>
+    </div>
+
+    <div class="chat-prompts-bar">
+      <button type="button" class="chat-chip" data-prompt="Plan my day with time blocks">⏱ Plan my day</button>
+      <button type="button" class="chat-chip" data-prompt="Break down my most urgent task into subtasks">🧩 Break down task</button>
+      <button type="button" class="chat-chip" data-prompt="Draft a team update email based on this plan">✉️ Draft update email</button>
+      <button type="button" class="chat-chip" data-prompt="Check for scheduling risks and bottlenecks">⚠️ Audit plan risks</button>
+    </div>
+
+    <form class="chat-input-row" id="chat-form">
+      <input type="text" id="chat-input" class="chat-input" placeholder="Ask ActionBot anything about your plan…" />
+      <button type="submit" class="chat-send-btn">Send</button>
+    </form>
+  </div>
+
+  <!-- Command Palette (⌘K / Ctrl+K) Modal -->
+  <div class="command-palette-backdrop" id="command-palette-modal" style="display: none;">
+    <div class="command-palette-modal">
+      <div class="command-search-row">
+        <span style="font-size: 1.1rem; color: var(--accent-light);">⚡</span>
+        <input type="text" id="command-palette-input" class="command-search-input" placeholder="Type a command or jump to feature (e.g. 'sprint', 'timetable', 'export')…" autocomplete="off" />
+        <span style="font-size: 0.72rem; color: var(--text-dim); background: var(--bg-deep); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border-subtle);">ESC to close</span>
+      </div>
+      <div class="command-items-list" id="command-items-list">
+        <div class="command-item" data-action="toggle-focus-timer">
+          <span>⏱ Start / Pause 25m Focus Sprint</span>
+          <span class="command-item-badge">Timer</span>
+        </div>
+        <div class="command-item" data-action="audit-plan">
+          <span>🛡️ Audit Plan Risks &amp; Concurrency</span>
+          <span class="command-item-badge">Auditor</span>
+        </div>
+        <div class="command-item" data-action="open-chat">
+          <span>💬 Open ActionBot Copilot</span>
+          <span class="command-item-badge">AI Assistant</span>
+        </div>
+        <div class="command-item" data-action="jump-ingest">
+          <span>📥 Jump to Step 1: Ingest &amp; Timetable Studio</span>
+          <span class="command-item-badge">Navigation</span>
+        </div>
+        <div class="command-item" data-action="jump-action">
+          <span>🛡️ Jump to Step 3: Action &amp; Verify</span>
+          <span class="command-item-badge">Navigation</span>
+        </div>
+        <div class="command-item" data-action="export-ics">
+          <span>📅 Export Action Plan as .ICS Calendar</span>
+          <span class="command-item-badge">Export</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="extractor.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

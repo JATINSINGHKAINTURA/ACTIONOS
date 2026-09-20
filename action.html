@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ActionOS — Action Plan &amp; Verification</title>
+<meta name="description" content="Review the human-approved action plan, inspect why decisions were made, and verify automated execution." />
+<meta property="og:title" content="ActionOS — Action Plan" />
+<meta property="og:description" content="Review the human-approved action plan, inspect why decisions were made, and verify automated execution." />
+<link rel="stylesheet" href="style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail">
+      <a href="index.html" class="rail-brand">
+        ActionOS
+        <span class="rail-brand-tag">v2.5</span>
+      </a>
+
+      <ol class="rail-steps">
+        <li class="done" id="step-nav-1"><a href="index.html#workspace">1 · Ingest &amp; Input</a></li>
+        <li class="done" id="step-nav-2"><a href="analysis.html">2 · Task Analysis</a></li>
+        <li class="active" id="step-nav-3"><a href="action.html">3 · Action &amp; Verify</a></li>
+      </ol>
+
+      <div class="rail-tools">
+        <span class="rail-tools-title">Productivity Suite</span>
+        <button type="button" class="rail-tool-btn" id="open-studio-btn">
+          ⚡ Timetable &amp; Schedule Studio
+        </button>
+        <button type="button" class="rail-tool-btn" id="open-pomodoro-btn">
+          ⏱ Focus Sprint Timer
+        </button>
+        <button type="button" class="rail-tool-btn" id="open-chat-rail-btn">
+          💬 ActionBot Copilot
+        </button>
+        <button type="button" class="rail-tool-btn" id="open-cmd-btn">
+          ⌨️ Command Menu <span style="font-size: 0.7rem; color: var(--text-dim); margin-left: auto;">⌘K</span>
+        </button>
+      </div>
+
+      <div class="rail-footer">
+        <div class="rail-pill">Audit Trail Active</div>
+        <span>Every execution step is cryptographically verified and logged.</span>
+      </div>
+    </aside>
+
+    <main class="stage">
+      <section class="reveal in-view">
+        <header class="stage-head">
+          <h1>Action Plan</h1>
+          <p class="stage-sub">Nothing executes until you approve it. Inspect the verification pipeline below.</p>
+        </header>
+
+        <!-- Main Checklist Card (Preserved IDs: checklist, chk-tasks, chk-deadlines, chk-priorities, chk-notify, approve-btn, verification) -->
+        <section class="card">
+          <ul id="checklist" class="checklist">
+            <li id="chk-tasks">Create tasks</li>
+            <li id="chk-deadlines">Set deadlines</li>
+            <li id="chk-priorities">Assign priorities</li>
+            <li id="chk-notify">Send notification</li>
+          </ul>
+
+          <div class="btn-row">
+            <button id="approve-btn" class="btn-primary">Approve Actions</button>
+            <a href="analysis.html" class="btn-secondary">← Back to Tasks</a>
+            <button type="button" id="reset-plan-btn" class="btn-secondary" style="display: none;">Reset Approval</button>
+          </div>
+
+          <div id="verification" class="verification" hidden></div>
+        </section>
+
+        <!-- "Show me why" Section (Preserved IDs: task-detail, why-toggle, why-text) -->
+        <section class="card" style="margin-top: 24px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+            <h2 style="font-size: 1.1rem; margin: 0;">Show me why</h2>
+            <button type="button" id="toggle-all-why" class="why-toggle" style="font-size: 0.8rem;">
+              Expand all reasons
+            </button>
+          </div>
+          <div id="task-detail"></div>
+        </section>
+      </section>
+
+      <!-- Focus Sprint Timer Widget (Feature 3: Time Management) -->
+      <section class="time-suite-card reveal reveal-delay-1" style="margin-top: 36px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <div>
+            <h3 style="font-size: 1.05rem;">⏱ Execution Focus Sprint</h3>
+            <p style="font-size: 0.82rem; color: var(--text-secondary);">Start working through your approved tasks with timed intervals.</p>
+          </div>
+          <span class="badge badge-medium" id="timer-mode-badge">25m Focus</span>
+        </div>
+
+        <div class="pomodoro-box">
+          <div>
+            <span class="pomodoro-label" id="timer-status-label">Sprint Countdown</span>
+            <div class="pomodoro-digits" id="timer-display">25:00</div>
+          </div>
+          <div class="pomodoro-controls">
+            <button type="button" class="btn-primary" id="timer-toggle-btn" style="padding: 8px 18px;">Start Sprint</button>
+            <button type="button" class="btn-secondary" id="timer-reset-btn" style="padding: 8px 14px;">Reset</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Information about the project that appears upon scrolling down -->
+      <section class="project-info-section reveal">
+        <h2 style="font-size: 1.4rem;">The Human-in-the-Loop Contract</h2>
+        <p class="stage-sub" style="margin-top: 8px;">
+          Autonomous agents fail when they assume authority over side-effects. ActionOS enforces a strict boundary between <strong>computation</strong> (extracting tasks and proposing a schedule) and <strong>mutation</strong> (creating reminders, triggering external APIs, or notifying teams).
+        </p>
+
+        <div class="project-info-grid" style="margin-top: 20px;">
+          <div class="info-card">
+            <div class="info-title">Audit Signatures</div>
+            <div class="info-desc">
+              Every approved batch generates an immutable execution proof hash stored in session history to guarantee execution integrity.
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-title">Interoperability</div>
+            <div class="info-desc">
+              Approved action plans can be directly imported into standard calendar software via RFC 5545 <code>.ICS</code> or formatted as clean Markdown deliverables.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Floating ActionBot Chatbot Trigger & Drawer -->
+  <button type="button" class="chatbot-trigger" id="chatbot-toggle-btn" title="Open ActionOS Copilot">
+    <span class="status-dot"></span>
+    <span>ActionBot Copilot</span>
+  </button>
+
+  <div class="chat-modal" id="chat-modal" hidden>
+    <div class="chat-header">
+      <div class="chat-title-box">
+        <span class="status-dot"></span>
+        <div>
+          <strong style="font-size: 0.95rem; color: var(--text-main);">ActionBot Copilot</strong>
+          <div style="font-size: 0.72rem; color: var(--text-dim);">Context-aware planning intelligence</div>
+        </div>
+      </div>
+      <button type="button" class="chat-close-btn" id="chat-close-btn">✕</button>
+    </div>
+
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-bubble model">
+        Your plan is ready for execution. You can ask me to draft a summary email, check time allocations, or break down any complex deliverable.
+      </div>
+    </div>
+
+    <div class="chat-prompts-bar">
+      <button type="button" class="chat-chip" data-prompt="Plan my day with time blocks">⏱ Plan my day</button>
+      <button type="button" class="chat-chip" data-prompt="Break down my most urgent task into subtasks">🧩 Break down task</button>
+      <button type="button" class="chat-chip" data-prompt="Draft a team update email based on this plan">✉️ Draft update email</button>
+      <button type="button" class="chat-chip" data-prompt="Check for scheduling risks and bottlenecks">⚠️ Audit plan risks</button>
+    </div>
+
+    <form class="chat-input-row" id="chat-form">
+      <input type="text" id="chat-input" class="chat-input" placeholder="Ask ActionBot anything about your plan…" />
+      <button type="submit" class="chat-send-btn">Send</button>
+    </form>
+  </div>
+
+  <!-- Command Palette (⌘K / Ctrl+K) Modal -->
+  <div class="command-palette-backdrop" id="command-palette-modal" style="display: none;">
+    <div class="command-palette-modal">
+      <div class="command-search-row">
+        <span style="font-size: 1.1rem; color: var(--accent-light);">⚡</span>
+        <input type="text" id="command-palette-input" class="command-search-input" placeholder="Type a command or jump to feature (e.g. 'approve', 'export', 'hash')…" autocomplete="off" />
+        <span style="font-size: 0.72rem; color: var(--text-dim); background: var(--bg-deep); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border-subtle);">ESC to close</span>
+      </div>
+      <div class="command-items-list" id="command-items-list">
+        <div class="command-item" data-action="approve-plan">
+          <span>🛡️ Approve &amp; Execute All Tasks</span>
+          <span class="command-item-badge">Execute</span>
+        </div>
+        <div class="command-item" data-action="export-ics">
+          <span>📅 Export Action Plan as .ICS Calendar</span>
+          <span class="command-item-badge">Export</span>
+        </div>
+        <div class="command-item" data-action="toggle-focus-timer">
+          <span>⏱ Start / Pause 25m Focus Sprint</span>
+          <span class="command-item-badge">Timer</span>
+        </div>
+        <div class="command-item" data-action="open-chat">
+          <span>💬 Open ActionBot Copilot</span>
+          <span class="command-item-badge">AI Assistant</span>
+        </div>
+        <div class="command-item" data-action="jump-ingest">
+          <span>📥 Jump to Step 1: Ingest &amp; Timetable Studio</span>
+          <span class="command-item-badge">Navigation</span>
+        </div>
+        <div class="command-item" data-action="jump-analysis">
+          <span>🧭 Jump to Step 2: Task Analysis</span>
+          <span class="command-item-badge">Navigation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="extractor.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
