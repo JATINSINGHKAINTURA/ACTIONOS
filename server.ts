@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
@@ -306,7 +306,7 @@ async function startServer() {
   app.use(express.json());
 
   // Health check endpoint
-  app.get("/api/health", (_req, res) => {
+  app.get("/api/health", (_req: Request, res: Response) => {
     res.json({ status: "ok", service: "ActionOS" });
   });
 
@@ -381,7 +381,7 @@ async function startServer() {
   }
 
   // Quick Capture API
-  app.post("/api/quick-parse", async (req, res) => {
+  app.post("/api/quick-parse", async (req: Request, res: Response) => {
     const { input } = req.body;
     if (!input || typeof input !== "string") {
       res.status(400).json({ error: "Input string is required" });
@@ -429,7 +429,7 @@ Return ONLY valid JSON.`;
   });
 
   // AI Task & Goal Breakdown API
-  app.post("/api/breakdown-task", async (req, res) => {
+  app.post("/api/breakdown-task", async (req: Request, res: Response) => {
     const { goal, workspace } = req.body;
     if (!goal || typeof goal !== "string") {
       res.status(400).json({ error: "Goal or task string is required" });
@@ -493,7 +493,7 @@ Return JSON matching:
   });
 
   // Student Study Planner API
-  app.post("/api/study-planner", async (req, res) => {
+  app.post("/api/study-planner", async (req: Request, res: Response) => {
     const { subject, daysLeft, hoursPerDay } = req.body;
     const subj = (subject || "General Exam").trim();
     const days = parseInt(daysLeft || "7", 10);
@@ -586,7 +586,7 @@ Return JSON:
   });
 
   // Meeting Notes Action Items Extractor API
-  app.post("/api/meeting-actions", async (req, res) => {
+  app.post("/api/meeting-actions", async (req: Request, res: Response) => {
     const { notes } = req.body;
     if (!notes || typeof notes !== "string") {
       res.status(400).json({ error: "Meeting notes text is required" });
@@ -663,7 +663,7 @@ Return JSON:
   });
 
   // Natural-Language Command Interpreter API
-  app.post("/api/natural-command", async (req, res) => {
+  app.post("/api/natural-command", async (req: Request, res: Response) => {
     const { command, context } = req.body;
     if (!command || typeof command !== "string") {
       res.status(400).json({ error: "Command string is required" });
@@ -760,7 +760,7 @@ Interpret the user's intent and respond with structured action JSON:
   });
 
   // AI Extraction endpoint
-  app.post("/api/extract", async (req, res) => {
+  app.post("/api/extract", async (req: Request, res: Response) => {
     const { text } = req.body;
     if (!text || typeof text !== "string") {
       res.status(400).json({ error: "Text is required" });
@@ -856,7 +856,7 @@ ${text}
   });
 
   // AI Chatbot endpoint for ActionOS Copilot with Cross-Workspace Intelligence
-  app.post("/api/chat", async (req, res) => {
+  app.post("/api/chat", async (req: Request, res: Response) => {
     const { messages, tasks, sourceText, activeWorkspace, allWorkspacesData, enabledWorkspaces } = req.body;
     if (!Array.isArray(messages) || messages.length === 0) {
       res.status(400).json({ error: "Messages array is required" });
@@ -940,7 +940,7 @@ Your Responsibilities:
   });
 
   // Executable Time Management Studio API
-  app.post("/api/generate-timetable", async (req, res) => {
+  app.post("/api/generate-timetable", async (req: Request, res: Response) => {
     const { topic, startTime, totalHours, protocol, energyMode, existingTasks } = req.body;
     const ai = getAI();
 
@@ -1039,7 +1039,7 @@ Return valid JSON with:
   });
 
   // Risk Audit Endpoint
-  app.post("/api/audit-risks", (req, res) => {
+  app.post("/api/audit-risks", (req: Request, res: Response) => {
     const { tasks, schedule } = req.body;
     const taskList = Array.isArray(tasks) ? tasks : [];
     const urgentCount = taskList.filter((t: any) => t.priority === "URGENT").length;
@@ -1090,7 +1090,7 @@ Return valid JSON with:
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
-    app.get("*", (req, res) => {
+    app.get("*", (req: Request, res: Response) => {
       res.sendFile(path.join(distPath, "index.html"));
     });
   }

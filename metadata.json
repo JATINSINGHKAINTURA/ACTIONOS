@@ -1,6 +1,6 @@
 {
-  "name": "Aethel OS",
-  "description": "Aethel OS — The Mindful Productivity System. A serene, local-first operating workspace for thinkers, researchers, and builders.",
+  "name": "ActionOS",
+  "description": "ActionOS — The Mindful Productivity System & Autonomous Action Engine. A serene, local-first operating workspace for personal task management, work projects, academic study, and software engineering.",
   "requestFramePermissions": ["notifications"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

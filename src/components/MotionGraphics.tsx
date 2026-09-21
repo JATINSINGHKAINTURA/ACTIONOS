@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { motion, useScroll, useSpring, useTransform, useMotionValue } from "motion/react";
+import { motion, useScroll, useSpring, useTransform, useMotionValue } from "framer-motion";
 import { Sparkles, Activity, Shield, Cpu, Compass, Orbit, Zap } from "lucide-react";
 
 /**
